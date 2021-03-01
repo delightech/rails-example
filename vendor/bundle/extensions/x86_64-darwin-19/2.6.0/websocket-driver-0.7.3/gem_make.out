@@ -1,0 +1,15 @@
+current directory: /Users/delightech/work/gae_rails/vendor/bundle/gems/websocket-driver-0.7.3/ext/websocket-driver
+/Users/delightech/.rbenv/versions/2.6.6/bin/ruby -I /Users/delightech/.rbenv/versions/2.6.6/lib/ruby/2.6.0 -r ./siteconf20210301-87297-4ryz1r.rb extconf.rb
+creating Makefile
+
+current directory: /Users/delightech/work/gae_rails/vendor/bundle/gems/websocket-driver-0.7.3/ext/websocket-driver
+make "DESTDIR=" clean
+
+current directory: /Users/delightech/work/gae_rails/vendor/bundle/gems/websocket-driver-0.7.3/ext/websocket-driver
+make "DESTDIR="
+compiling websocket_mask.c
+linking shared-object websocket_mask.bundle
+
+current directory: /Users/delightech/work/gae_rails/vendor/bundle/gems/websocket-driver-0.7.3/ext/websocket-driver
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 websocket_mask.bundle ./.gem.20210301-87297-dq5p5d
