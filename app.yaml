@@ -1,4 +1,4 @@
-# Copyright 2017 Google, Inc
+# Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,8 +15,7 @@
 # [START all]
 # [START step_1]
 entrypoint: bundle exec rackup --port $PORT
-env: flex
-runtime: ruby
+runtime: ruby27   # or use ruby26 if preferred
 # [END step_1]
 
 env_variables:
