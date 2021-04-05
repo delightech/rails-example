@@ -1,0 +1,5 @@
+<% @title = "管理者トップページ" %>
+<% @test1 = "<div>管理者トップページ using html_safe</div>" %>
+<% @test2 = "<span>管理者トップページ using raw</span>" %>
+<h1><%= @test1.html_safe %></h1>
+<h1><%= raw(@test2) %></h1>
