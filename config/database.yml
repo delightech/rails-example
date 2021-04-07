@@ -82,5 +82,5 @@ test:
 production:
   <<: *default
   database: gae_rails_production
-  username: gae_rails
+  username: postgres
   password: <%= ENV['GAE_RAILS_DATABASE_PASSWORD'] %>
