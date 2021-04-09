@@ -4,12 +4,11 @@ class ApplicationController < ActionController::Base
   class Forbidden < ActionController::ActionControllerError; end
   class IpAddressRejected < ActionController::ActionControllerError; end
 
-  # 親クラスの例外処理を先に記述しなければ動作しない
-  # ここではActionControllerErrorの親クラスであるStandardErrorの例外処理を先に記述する
-  rescue_from StandardError, with: :rescue500
-  rescue_from Forbidden, with: :rescue403
-  rescue_from IpAddressRejected, with: :rescue403
-  rescue_from ActiveRecord::RecordNotFound, with: :rescue404
+  # include app/controllers/concerns/error_handers.rb
+  # ErrorHandlersモジュールで定義した関数をこのクラスのメソッドとして使えるようにする
+  # Controllerが肥大化しないようにconcernsでモジュール化している
+  # production環境以外ではRailsのエラーダンプが表示されるようにしておく
+  include ErrorHandlers if Rails.env.production?
 
   private def set_layout
     if params[:controller].match(%r{\A(staff|admin|customer)/})
@@ -17,18 +16,5 @@ class ApplicationController < ActionController::Base
     else
       "customer"
     end
-  end
-
-  private def rescue403(e)
-    @exception = e
-    render "errors/forbidden", status: 403
-  end
-
-  private def rescue404(e)
-    render "errors/not_found", status: 404
-  end
-
-  private def rescue500(e)
-    render "errors/internal_server_error", status: 500
   end
 end
