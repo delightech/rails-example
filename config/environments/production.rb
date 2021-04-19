@@ -24,6 +24,12 @@ Rails.application.configure do
   # Apache or NGINX already handles this.
   config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
+  if ENV["RAILS_LOG_TO_STDOUT"].present?
+    logger           = ActiveSupport::Logger.new(STDOUT)
+    logger.formatter = config.log_formatter
+    config.logger = ActiveSupport::TaggedLogging.new(logger)
+  end
+
   # Compress CSS using a preprocessor.
   # config.assets.css_compressor = :sass
 
@@ -60,7 +66,7 @@ Rails.application.configure do
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
   # config.active_job.queue_adapter     = :resque
-  # config.active_job.queue_name_prefix = "gae_rails_production"
+  # config.active_job.queue_name_prefix = "heroku_rails_production"
 
   config.action_mailer.perform_caching = false
 
