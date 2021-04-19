@@ -5,4 +5,5 @@ class StaffMember < ApplicationRecord
     elsif raw_password.nil?
       self.hashed_password = nil
     end
+  end
 end
