@@ -5,7 +5,7 @@ class Staff::Base < ApplicationController
     end
   end
   private def current_staff_member
-    puts "###################"
+    puts "current_staff_member###################"
     pp test
     puts "###################"
     test
