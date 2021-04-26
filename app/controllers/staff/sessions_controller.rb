@@ -19,7 +19,9 @@ class Staff::SessionsController < Staff::Base
     puts "staff_member###################"
     pp staff_member
     puts "###################"
-    if staff_member
+
+    # DBから取得したhashed_passwordと入力されたパスワードのハッシュ値が同じかをチェックする
+    if Staff::Authenticator.new(staff_member).authenticate(@form.password)
       session[:staff_member_id] = staff_member.id
       redirect_to :staff_root
     else
