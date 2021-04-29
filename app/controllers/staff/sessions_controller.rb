@@ -23,14 +23,20 @@ class Staff::SessionsController < Staff::Base
     # DBから取得したhashed_passwordと入力されたパスワードのハッシュ値が同じかをチェックする
     if Staff::Authenticator.new(staff_member).authenticate(@form.password)
       session[:staff_member_id] = staff_member.id
+      # flash.noticeは次のアクションまで有効(redirect_toで指定した先のアクションでも有効)
+      flash.notice = "ログインしました。"
       redirect_to :staff_root
     else
+      # flash.now.noticeはこのアクションまで有効
+      # viewに指定されたstaff/sessions/new.html.erbでのみ表示される
+      flash.now.alert = "メールアドレスまたはパスワードが正しくありません。"
       render action: "new"
     end
   end
 
   def destroy
     session.delete(:staff_member_id)
+    flash.notice = "ログアウトしました。"
     redirect_to :staff_root
   end
 end
