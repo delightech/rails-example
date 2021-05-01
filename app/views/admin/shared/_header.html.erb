@@ -1,5 +1,12 @@
 <header>
   <span class="logo-mark">BAUKIS2</span>
+  <%#
+    content_tag は第一引数に指定したタグを出力する
+    第二引数はタグのvalue
+    第三引数はタグに指定するclass
+  %>
+  <%= content_tag(:span, flash.notice, class: "notice") if flash.notice %>
+  <%= content_tag(:span, flash.alert, class: "alert") if flash.alert %>
   <%=
     if current_administrator
       link_to "ログアウト", :admin_session, method: :delete

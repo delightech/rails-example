@@ -1,5 +1,9 @@
-<% @title = "管理者トップページ" %>
-<% @test1 = "<div>管理者トップページ using html_safe</div>" %>
-<% @test2 = "<span>管理者トップページ using raw</span>" %>
-<h1><%= @test1.html_safe %></h1>
-<h1><%= raw(@test2) %></h1>
+<% @title = "<b>管理者トップページ</b>" %>
+<%# html_safe でタグを使えるようにする %>
+<h1><%= @title.html_safe %></h1>
+<%# rawメソッドを使うとタグをそのまま使える %>
+<% @title = "<i>管理者トップページ</i>" %>
+<h1><%= raw(@title) %></h1>
+<%# 何もしなければ、タグはサニタイズされて文字列として扱われる %>
+<% @title = "<i>管理者トップページ</i>" %>
+<h1><%= @title %></h1>

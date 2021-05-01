@@ -1,0 +1,27 @@
+<%# 「<%=」はメッセージ、タグの出力。「<%」はifなどの条件文 %>
+<% @title = "ログイン" %>
+
+<div id="login-form">
+  <h1><%= @title %></h1>
+  <%#
+    @formはAdmin::SessionsControllerで作成したformモデルのインスタンス
+    urlに指定したadmin_sessionはconfig/routes.rbに定義されている。createアクションへのPOST
+  %>
+  <%= form_with model: @form, url: :admin_session do |f| %>
+    <div>
+      <%# 第一引数の :email はlabel関連付けのid（label for=id）になる %>
+      <%= f.label :email, "メールアドレス" %>
+      <%# 第一引数の :email はタグのidになる %>
+      <%= f.text_field :email %>
+    </div>
+    <div>
+      <%= f.label :password, "パスワード" %>
+      <%# パスワードフィールド。入力がマスクされる %>
+      <%= f.password_field :password %>
+    </div>
+    <div>
+      <%# input type="submit" タグ %>
+      <%= f.submit "ログイン" %>
+    </div>
+  <% end %>
+</div>
