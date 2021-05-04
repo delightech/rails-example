@@ -25,6 +25,17 @@ describe "ルーティング" do
     )
   end
 
+  example "顧客トップページ" do
+    config = Rails.application.config.baukis2
+    url = "http://#{config[:customer][:host]}/#{config[:customer][:path]}"
+
+    expect(get: url).to route_to(
+      host: config[:customer][:host],
+      controller: "customer/top",
+      action: "index"
+    )
+  end
+
   example "ホスト名が対象外ならroutableではない" do
     # be_routableメソッドは、与えられたHTTPメソッドとURLの組み合わせが何らかのアクションと結びつくかどうかを調べるマッチャー
     expect(get: "http://foo.example.jp").not_to be_routable
