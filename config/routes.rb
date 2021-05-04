@@ -17,6 +17,8 @@ Rails.application.routes.draw do
   end
   constraints host: config[:admin][:host] do
     namespace :admin do
+      # rootは、/admin以降のパスはなしで、TopControllerクラスのindexアクションが呼ばれる
+      # rootは、link_toに指定する際は :admin_root で遷移先指定する
       root "top#index"
       get "login" => "sessions#new", as: :login
       # sessionはユーザーに一つなので単数リソースで表現可能

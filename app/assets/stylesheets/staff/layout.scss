@@ -1,7 +1,8 @@
 @import "colors";
 @import "dimensions";
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   height: 100%;
@@ -18,10 +19,10 @@ header {
   padding: $moderate;
   background-color: $dark_cyan;
   color: $very_light_gray;
-  span.logo-mark {
+  a.logo-mark {
     font-weight: bold;
   }
-  a {
+  a.login {
     float: right;
     color: $very_light_gray;
   }

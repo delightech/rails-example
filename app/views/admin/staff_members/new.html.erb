@@ -1,0 +1,13 @@
+<% @title = "職員の新規登録" %>
+<h1><%= @title %></h1>
+
+<div id="generic-form">
+  <%= form_with model: @staff_member, url: [:admin, @staff_member] do |f| %>
+    <%# formという名前の部分テンプレートを読み込む %>
+    <%# fは部分テンプレートform内でフォームビルダー（ブロック変数f）を参照するためのメソッド %>
+    <%= render "form", f: f %>
+    <div class="buttons">
+      <%= f.submit "登録" %>
+      <%= link_to "キャンセル", :admin_staff_members %>
+    </div>
+  <% end %>
