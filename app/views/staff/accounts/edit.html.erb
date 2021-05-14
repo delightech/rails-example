@@ -1,0 +1,13 @@
+<% @title = "アカウント情報編集" %>
+<h1><%= @title %></h1>
+
+<div id="generic-form">
+  <%# modelに指定したオブジェクトのid属性に値がセットされているかどうかでHTTPメソッドが決まる。idがあるならPATCH（更新）、ないならPOST（新規登録） %>
+  <%= form_with model: @staff_member, url: :staff_account do |f| %>
+    <%= render "form", f: f %>
+    <div class="buttons">
+      <%= f.submit "更新" %>
+      <%= link_to "キャンセル", :staff_account %>
+    </div>
+  <% end %>
+</div>
