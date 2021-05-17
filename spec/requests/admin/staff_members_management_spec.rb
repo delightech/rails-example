@@ -1,14 +1,40 @@
 require 'rails_helper'
 
+# describeの第二引数はcontext。どのような文脈でdescribeが実行されるかを示す。
+# 下記のようにcontextブロックを内側に書くのと同様。
+# describe "管理者による職員管理" do
+#   context "ログイン前" do
+#     include_examples "a protected admin controller", "admin/staff_members"
+#   end
+# end
+describe "管理者による職員管理", "ログイン前" do
+  # include_examplesでshared_examplesを読み込む（shared_examples内のコードがここにそのまま記述されるのと同等になる）
+  # 第一引数は、includeするshared_examplesの名前を指定
+  # 第二引数は、shared_examplesのブロック引数になる
+  include_examples "a protected admin controller", "admin/staff_members"
+end
+
 describe "管理者による職員管理" do
   # letはメモ化を行う。メモ化とは以下。
   #  初回のみメソッド実行して結果を保持し、それを返します。
   #  2回目以降はメソッド実行せず、保持したものを返します。
   let(:administrator) { create(:administrator) }
 
+  before do
+    post admin_session_url,
+      params: {
+        admin_login_form: {
+          email: administrator.email,
+          password: "pw"
+        }
+      }
+
+  end
+
   describe "新規登録" do
     # attributes_forはFactoryBotがassign_attributes可能なhashを返す
-    # ここでは:staff_memberのhashを返す
+    # ここではFactoryBot.defineで定義した:staff_memberのhashを返す
+    # letで定義した変数はexample内でのみ参照可能。describe, contextでは使えないので注意
     let(:params_hash) { attributes_for(:staff_member) }
 
     example "職員一覧ページにリダイレクト" do

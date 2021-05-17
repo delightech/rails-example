@@ -1,4 +1,6 @@
 class Staff::SessionsController < Staff::Base
+  skip_before_action :authorize
+
   def new
     if current_staff_member
       redirect_to :staff_root
@@ -21,6 +23,7 @@ class Staff::SessionsController < Staff::Base
         render action: "new"
       else
         session[:staff_member_id] = staff_member.id
+        session[:last_access_time] = Time.current
         # flash.noticeは次のアクションまで有効(redirect_toで指定した先のアクションでも有効)
         flash.notice = "ログインしました。"
         redirect_to :staff_root

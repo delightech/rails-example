@@ -1,4 +1,7 @@
 class Admin::SessionsController < Admin::Base
+  # トップページを表示するのにログインは不要なのでスキップする
+  skip_before_action :authorize
+
   def new
     # current_administratorメソッドはAdmin::Baseに定義されている
     if current_administrator
