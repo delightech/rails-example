@@ -1,5 +1,9 @@
 require "rails_helper"
 
+describe "職員による自分のアカウントの管理", "ログイン前" do
+  include_examples "a protected singular staff controller", "staff/accounts"
+end
+
 describe "職員による自分のアカウントの管理" do
   before do
     post staff_session_url,
@@ -9,6 +13,36 @@ describe "職員による自分のアカウントの管理" do
           password: "pw"
         }
       }
+  end
+
+  describe "情報表示" do
+    let(:staff_member) { create(:staff_member) }
+
+    example "成功" do
+      get staff_account_url
+      expect(response.status).to eq(200)
+    end
+
+    example "停止フラグがセットされたら強制的にログアウト" do
+      # update_columnは、第一引数に更新対象カラム名を指定し、第二引数に値を指定することで即DBのカラムを更新をするメソッド
+      staff_member.update_column(:suspended, true)
+      get staff_account_url
+      expect(response).to redirect_to(staff_root_url)
+    end
+
+    example "セッションタイムアウト" do
+      # spec/rails_helper.rb でincludeしたActiveSupport::Testing::TimeHelpersのtravel_toメソッドを使う
+      # travel_toは、「現在時刻」を指定した時間に移動させるメソッド
+      # from_nowはレシーバのオブジェクト分後の時間が返る
+      # advanceは引数に指定した時間を進めて返す
+      # TIMEOUTは60.minutesが代入されている定数なので下記になる
+      # 60.minutes.from_now.advance(seconds: 1)
+      #=>60分後の時刻をさらに1秒進める、という形になる。つまり1時間1秒後の時刻が「現在時刻」となる
+      # 現在時刻をログインから60分以降の時刻にし、セッションタイムアウト状態としてテストする
+      travel_to Staff::Base::TIMEOUT.from_now.advance(seconds: 1)
+      get staff_account_url
+      expect(response).to redirect_to(staff_login_url)
+    end
   end
 
   describe "更新" do

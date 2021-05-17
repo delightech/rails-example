@@ -12,7 +12,7 @@ class Admin::Base < ApplicationController
   helper_method :current_administrator
 
   private def authorize
-    # ログインしていなければあログイン画面へリダイレクトする
+    # ログインしていなければログイン画面へリダイレクトする
     unless current_administrator
       flash.alert = "管理者としてログインしてください。"
       redirect_to :admin_login
