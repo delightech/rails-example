@@ -53,6 +53,36 @@ describe "管理者による職員管理" do
     end
   end
 
+  describe "情報表示" do
+    let(:administrator) { create(:administrator) }
+
+    example "成功" do
+      get admin_staff_members_url
+      expect(response.status).to eq(200)
+    end
+
+    example "停止フラグがセットされたら強制的にログアウト" do
+      # update_columnは、第一引数に更新対象カラム名を指定し、第二引数に値を指定することで即DBのカラムを更新をするメソッド
+      administrator.update_column(:suspended, true)
+      get admin_staff_members_url
+      expect(response).to redirect_to(admin_root_url)
+    end
+
+    example "セッションタイムアウト" do
+      # spec/rails_helper.rb でincludeしたActiveSupport::Testing::TimeHelpersのtravel_toメソッドを使う
+      # travel_toは、「現在時刻」を指定した時間に移動させるメソッド
+      # from_nowはレシーバのオブジェクト分後の時間が返る
+      # advanceは引数に指定した時間を進めて返す
+      # TIMEOUTは60.minutesが代入されている定数なので下記になる
+      # 60.minutes.from_now.advance(seconds: 1)
+      #=>60分後の時刻をさらに1秒進める、という形になる。つまり1時間1秒後の時刻が「現在時刻」となる
+      # 現在時刻をログインから60分以降の時刻にし、セッションタイムアウト状態としてテストする
+      travel_to Admin::Base::TIMEOUT.from_now.advance(seconds: 1)
+      get admin_staff_members_url
+      expect(response).to redirect_to(admin_root_url)
+    end
+  end
+
   describe "更新" do
     # createもFactoryBotのメソッド。定義済みの:staff_memberファクトリーを用い、StaffMemberオブジェクトを作ってDBに保存し、そのオブジェクトを返す。
     let(:staff_member) { create(:staff_member) }

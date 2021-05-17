@@ -20,8 +20,11 @@ class Staff::Base < ApplicationController
   end
 
   private def check_account
+    # activeでなくなったアカウントは強制的にログアウトさせる
+
     # ここでtryを使わないのは、current_staff_memberがnilの場合（未ログイン時）は強制ログアウト&リダイレクトさせないため
-    # tryを使うとリダイレクトループになってしまう
+    # 以下の書き方だと、未ログイン時もactive?がfalseでも同じfalseとしてif文を通過してしまう(リダイレクトループになってしまう)
+    # if !current_staff_member.try(:active?)
     if current_staff_member && !current_staff_member.active?
       session.delete(:staff_member_id)
       flash.alert = "アカウントが無効になりました。"
@@ -33,7 +36,7 @@ class Staff::Base < ApplicationController
 
   private def check_timeout
     if current_staff_member
-      # session作成時刻が、現在の時刻から1時間前の時刻より後なら、有効なsessionとして最終session時刻を更新する
+      # 最終session作成時刻が、現在の時刻から1時間前の時刻より後(1時間以内)なら、有効なsessionとして最終session時刻を更新する
       if session[:last_access_time] >= TIMEOUT.ago
         session[:last_access_time] = Time.current
       else

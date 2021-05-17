@@ -6,4 +6,10 @@ class Administrator < ApplicationRecord
       self.hashed_password = nil
     end
   end
+
+  # StaffMember同様の設計
+  # 後でアカウント状態に影響するパラメーがを追加できるようにメソッドでラップしておく
+  def active?
+    !suspended?
+  end
 end
