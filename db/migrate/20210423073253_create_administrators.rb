@@ -5,6 +5,7 @@ class CreateAdministrators < ActiveRecord::Migration[6.1]
       t.string :hashed_password
       t.boolean :suspended, null: false, default: false
 
+      # created_at, updated_atを追加するメソッド
       t.timestamps
     end
     add_index :administrators, "LOWER(email)", unique: true

@@ -11,6 +11,7 @@ class CreateStaffMembers < ActiveRecord::Migration[6.1]
       t.date :end_date
       t.boolean :suspended, null: false, default: false
 
+      # created_at, updated_atを追加するメソッド
       t.timestamps
     end
     add_index :staff_members, "LOWER(email)", unique: true
