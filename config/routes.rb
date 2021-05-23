@@ -23,7 +23,21 @@ Rails.application.routes.draw do
       get "login" => "sessions#new", as: :login
       # sessionはユーザーに一つなので単数リソースで表現可能
       resource :session, only: [:create, :destroy]
-      resources :staff_members
+      resources :staff_members do
+        # nested resources
+        # HTTPメソッド: GET
+        # urlパス: /admin/staff_members/:staff_member_id/staff_events
+        # アクション: index
+        # ルーティング名: :admin_staff_member_staff_events
+        # このリソースでスタッフ個別のログイン・ログアウト記録の表示に限定している
+        resources :staff_events, only: [:index]
+      end
+      # 全ての職員のログイン・ログアウト記録を閲覧するためのリソース
+      # HTTPメソッド: GET
+      # urlパス: /admin/staff_events
+      # アクション: index
+      # ルーティング名: :admin_staff_events
+      resources :staff_events, only: [:index]
     end
   end
   constraints host: config[:customer][:host] do
