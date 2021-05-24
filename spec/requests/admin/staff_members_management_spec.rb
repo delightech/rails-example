@@ -18,6 +18,7 @@ describe "管理者による職員管理" do
   # letはメモ化を行う。メモ化とは以下。
   #  初回のみメソッド実行して結果を保持し、それを返します。
   #  2回目以降はメソッド実行せず、保持したものを返します。
+  # createはFactoryBotのメソッドで、DBにデータを保存する
   let(:administrator) { create(:administrator) }
 
   before do
@@ -54,6 +55,7 @@ describe "管理者による職員管理" do
   end
 
   describe "情報表示" do
+    # createはFactoryBotのメソッドで、DBにデータを保存する
     let(:administrator) { create(:administrator) }
 
     example "成功" do

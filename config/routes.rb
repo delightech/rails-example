@@ -11,8 +11,10 @@ Rails.application.routes.draw do
       get "login" => "sessions#new", as: :login
       # sessionはユーザーに一つなので単数リソースで表現可能
       resource :session, only: [:create, :destroy]
-      # スタッフ画面（ユーザー個人利用）に新規作成、削除は不要のためresourceメソッドから除外する
+      # 職員画面（ユーザー個人利用）に新規作成、削除は不要のためresourceメソッドから除外する
       resource :account, except: [:new, :create, :destroy]
+      # 職員自身のパスワード変更
+      resource :password, only: [:show, :edit, :update]
     end
   end
   constraints host: config[:admin][:host] do

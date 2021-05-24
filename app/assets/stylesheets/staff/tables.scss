@@ -23,7 +23,8 @@ div.table-wrapper {
         padding: $narrow;
       }
       td.email,
-      td.date {
+      td.date,
+      td.password {
         font-family: monospace;
       }
       td.boolean {
