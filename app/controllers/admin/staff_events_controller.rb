@@ -9,6 +9,10 @@ class Admin::StaffEventsController < Admin::Base
       # created_at（occured_at）で降順ソート
       @events = StaffEvent.order(occurred_at: :desc)
     end
+    # 関連付けられたモデルオブジェクトを一括取得する
+    # 以下で、StaffMemberを一つずつID指定してクエリ発行するのではなく、in指定で一括取得できる
+    # これによりSQLを無駄に繰り返し発行するのを防げる
+    @events = @events.includes(:member)
     # kaminari gemが提供するpageメソッドを使う
     # pageにnilを指定した場合は１になる
     @events = @events.page(params[:page])
