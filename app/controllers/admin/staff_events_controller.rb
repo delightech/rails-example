@@ -21,6 +21,6 @@ class Admin::StaffEventsController < Admin::Base
     # 上記でDBアクセスが発生するのは、Viewで実際に使うタイミング
 
     # 上記を全てまとめたのが以下。order, include, pageの各メソッドはRelationオブジェクトを返すので連鎖的に呼び出すことができる
-    @events = @events.order(occurred_at: :desc).include(:member).page(params[:page])
+    @events = @events.order(occurred_at: :desc).includes(:member).page(params[:page])
   end
 end
