@@ -19,15 +19,19 @@
       <th>アクション</th>
     </tr>
     <% @staff_members.each do |m| %>
+    <%#
+      ERBテンプレートの中でselfによって参照されるオブジェクトをビューコンテキストと呼ぶ。
+      ビューコンテキストはRailsで定義された全てのヘルパーメソッドを自分のメソッドとして持っている。
+      StaffMemberPresenterはプレゼンターオブジェクト。View内での処理を名前空間を分けて閉じ込めることで、オブジェクトの役割を明確にし、Viewをシンプルに保つことができる。
+    %>
+    <% p = StaffMemberPresenter.new(m, self) %>
     <tr>
       <td><%= m.family_name %> <%= m.given_name %></td>
       <td><%= m.family_name_kana %> <%= m.given_name_kana %></td>
       <td class="email"><%= m.email %></td>
       <td class="date"><%= m.start_date.strftime("%Y/%m/%d") %></td>
       <td class="date"><%= m.end_date.try(:strftime, "%Y/%m/%d") %></td>
-      <td class="boolean">
-        <%= m.suspended? ? raw("&#x2611;") : raw("&#x2610;") %>
-      </td>
+      <td class="boolean"><%= p.suspended_mark %></td>
       <td class="actions">
         <%= link_to "編集", [:edit, :admin, m] %>｜
         <%#

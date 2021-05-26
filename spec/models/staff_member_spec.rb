@@ -54,6 +54,25 @@ describe "バリデーション" do
     expect(member).not_to be_valid
   end
 
+  example "漢字、平仮名、カタカナ、長音符、アルファベット以外は無効" do
+    member = build(:staff_member, family_name: "山田")
+    expect(member).to be_valid
+    member.family_name = "やまだ"
+    expect(member).to be_valid
+    member.family_name = "ヤマダ"
+    expect(member).to be_valid
+    member.family_name = "YAMADA"
+    expect(member).to be_valid
+    member.family_name = "yamada"
+    expect(member).to be_valid
+    # 長音符は全角のみOK
+    member.family_name = "yamadaー"
+    expect(member).to be_valid
+    # 長音符は半角NG
+    member.family_name = "yamada-"
+    expect(member).not_to be_valid
+  end
+
   example "漢字を含むfamily_name_kanaは無効" do
     member = build(:staff_member, family_name_kana: "試験")
     expect(member).not_to be_valid
