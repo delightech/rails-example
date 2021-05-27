@@ -1,36 +1,69 @@
+<%# FormPresenterのインスタンスを生成 %>
+<% p = StaffMemberFormPresenter.new(f, self) %>
+<%= p.notes %>
+<%#
+上記 p.notes は以下と同じ
 <div class="notes">
   <span class="mark">*</span> 印の付いた項目は入力必須です。
 </div>
+%>
+<%= p.text_field_block(:email, "メールアドレス", size: 32, required: true) %>
+<%#
+上記 p.text_field_block は以下と同じ
 <div>
-  <%= f.label :email, "メールアドレス", class: "required" %>
-  <%= f.email_field :email, size: 32, required: true %>
+  <%= f.label :email, "メールアドレス", class: "required" ％＞
+  <%= f.email_field :email, size: 32, required: true ％＞
 </div>
-<%# オブジェクトがDB登録済みかどうかを判定する。f.object.new_record?はDB未登録（新規登録）なら真となる %>
-<% if f.object.new_record? %>
-  <div>
-    <%= f.label :password, "パスワード", class: "required" %>
-    <%= f.password_field :password, size: 32, required: true %>
-  </div>
+%>
+<%= p.password_field_block(:password, "パスワード", size: 32, required: true) %>
+<%#
+上記 p.password_field_block は以下と同じ
+f.object.new_record? は、オブジェクトがDB未登録（新規登録）ならtrueとなる
+<% if f.object.new_record? ％＞
+<div>
+  <%= f.label :password, "パスワード", class: "required" ％＞
+  <%= f.password_field :password, size: 32, required: true ％＞
+</div>
+%>
 <% end %>
+
+<%= p.full_name_block(:family_name, :given_name, "氏名", required: true) %>
+<%= p.full_name_block(:family_name_kana, :given_name_kana, "フリガナ", required: true) %>
+<%#
+上記2行は以下と同じ。FormPresenterを使ってHTML出力をクラスに切り出している
+※スクリプトレットの末尾のタグを書くとコメントが切れてしまうので全角で記述している
 <div>
-  <%= f.label :family_name, "氏名", class: "required" %>
-  <%= f.text_field :family_name, required: true %>
-  <%= f.text_field :given_name, required: true %>
+  <%= f.label :family_name, "氏名", class: "required" ％＞
+  <%= f.text_field :family_name, required: true ％＞
+  <%= f.text_field :given_name, required: true ％＞
 </div>
 <div>
-  <%= f.label :family_name_kana, "フリガナ", class: "required" %>
-  <%= f.text_field :family_name_kana, required: true %>
-  <%= f.text_field :given_name_kana, required: true %>
+  <%= f.label :family_name_kana, "フリガナ", class: "required" ％＞
+  <%= f.text_field :family_name_kana, required: true ％＞
+  <%= f.text_field :given_name_kana, required: true ％＞
 </div>
+%>
+<%= p.date_field_block(:start_date, "入社日", required: true %>
+<%#
+上記 p.date_field_blcok は下記と同じ。
 <div>
-  <%= f.label :start_date, "入社日", class: "required" %>
-  <%= f.date_field :start_date, required: true %>
+  <%= f.label :start_date, "入社日", class: "required" ％＞
+  <%= f.date_field :start_date, required: true ％＞
 </div>
+%>
+<%= p.date_field_block(:end_date, "退職日" %>
+<%#
+上記 p.date_field_blcok は下記と同じ。
 <div>
-  <%= f.label :end_date, "退職日" %>
-  <%= f.date_field :end_date %>
+  <%= f.label :end_date, "退職日" ％＞
+  <%= f.date_field :end_date ％＞
 </div>
+%>
+<%= p.suspended_check_box %>
+<%#
+上記 p.suspended_check_box は下記と同じ。
 <div class="check-boxes">
-  <%= f.check_box :suspended %>
-  <%= f.label :suspended, "アカウント停止" %>
-<div>
+  <%= f.check_box :suspended ％＞
+  <%= f.label :suspended, "アカウント停止" ％＞
+</div>
+%>
