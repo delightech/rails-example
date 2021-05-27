@@ -24,8 +24,8 @@ f.object.new_record? は、オブジェクトがDB未登録（新規登録）な
   <%= f.label :password, "パスワード", class: "required" ％＞
   <%= f.password_field :password, size: 32, required: true ％＞
 </div>
+<% end ％＞
 %>
-<% end %>
 
 <%= p.full_name_block(:family_name, :given_name, "氏名", required: true) %>
 <%= p.full_name_block(:family_name_kana, :given_name_kana, "フリガナ", required: true) %>
@@ -43,7 +43,7 @@ f.object.new_record? は、オブジェクトがDB未登録（新規登録）な
   <%= f.text_field :given_name_kana, required: true ％＞
 </div>
 %>
-<%= p.date_field_block(:start_date, "入社日", required: true %>
+<%= p.date_field_block(:start_date, "入社日", required: true) %>
 <%#
 上記 p.date_field_blcok は下記と同じ。
 <div>
@@ -51,7 +51,7 @@ f.object.new_record? は、オブジェクトがDB未登録（新規登録）な
   <%= f.date_field :start_date, required: true ％＞
 </div>
 %>
-<%= p.date_field_block(:end_date, "退職日" %>
+<%= p.date_field_block(:end_date, "退職日") %>
 <%#
 上記 p.date_field_blcok は下記と同じ。
 <div>
