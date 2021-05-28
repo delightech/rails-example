@@ -24,6 +24,9 @@ div#wrapper {
             color: $red;
           }
         }
+        div.input-block {
+          input { margin-right: $narrow * 2; }
+        }
         div.notes {
           text-align: right;
           font-size: $small;
@@ -53,6 +56,11 @@ div#wrapper {
           input {
             background-color: $pink;
           }
+        }
+        div.error-message {
+          color: $red;
+          font-size: $small;
+          padding: 0 $very_wide;
         }
         div.error-message {
           color: $red;
