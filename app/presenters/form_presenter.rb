@@ -49,8 +49,8 @@ class FormPresenter
       # ActiveRcordのErrorsオブジェクトの full_message_for メソッドは、引数に指定された属性に関するエラーメッセージの配列を返す
       # 引数に :email を指定すれば、object の :email 属性に関するエラーメッセージのリストが返る
       object.errors.full_messages_for(name).each do |message|
-        m.div(class: "error-message") do |m|
-          m.text message
+        m.div(class: "error-message") do |div|
+          div.text message
         end
       end
     end

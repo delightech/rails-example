@@ -9,6 +9,15 @@ class StaffMemberPresenter < ModelPresenter
     # objectはStaffMemberが入ってくる
     # view_contextはRailsで定義された全てのヘルパーメソッドを持つ。Viewで渡したselfオブジェクト
     # rawはViewで使えるrawメソッドと同じもの
-    object.suspended? ? view_context.raw("&#x2611;") : view_context.raw("&#x2610;")
+    # suspended?はobject.suspended?でも同じ。あまり意味はない。委譲しているだけ。
+    suspended? ? view_context.raw("&#x2611;") : view_context.raw("&#x2610;")
+  end
+
+  def full_name
+    object.family_name + ' ' + object.given_name
+  end
+
+  def full_name_kana
+    object.family_name_kana + ' ' + object.given_name_kana
   end
 end
