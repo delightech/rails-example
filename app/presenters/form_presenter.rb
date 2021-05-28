@@ -24,6 +24,7 @@ class FormPresenter
     markup(:div, class: "input-block") do |m|
       m << decorated_label(name, label_text, options)
       m << text_field(name, options)
+      m << error_messages_for(name)
     end
   end
 
@@ -31,6 +32,7 @@ class FormPresenter
     markup(:div, class: "input-block") do |m|
       m << decorated_label(name, label_text, options)
       m << password_field(name, options)
+      m << error_messages_for(name)
     end
   end
 
@@ -38,6 +40,19 @@ class FormPresenter
     markup(:div, class: "input-block") do |m|
       m << decorated_label(name, label_text, options)
       m << date_field(name, options)
+      m << error_messages_for(name)
+    end
+  end
+
+  def error_messages_for(name)
+    markup do |m|
+      # ActiveRcordのErrorsオブジェクトの full_message_for メソッドは、引数に指定された属性に関するエラーメッセージの配列を返す
+      # 引数に :email を指定すれば、object の :email 属性に関するエラーメッセージのリストが返る
+      object.errors.full_messages_for(name).each do |message|
+        m.div(class: "error-message") do |m|
+          m.text message
+        end
+      end
     end
   end
 
