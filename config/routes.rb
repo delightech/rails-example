@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       resource :account, except: [:new, :create, :destroy]
       # 職員自身のパスワード変更
       resource :password, only: [:show, :edit, :update]
+      resources :customers
     end
   end
   constraints host: config[:admin][:host] do
