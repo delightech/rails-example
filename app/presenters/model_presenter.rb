@@ -24,6 +24,6 @@ class ModelPresenter
   end
 
   def updated_at
-    object.updatede_at.try(:strftime, '%Y/%m/%d %H:%M:%S')
+    object.updated_at.try(:strftime, '%Y/%m/%d %H:%M:%S')
   end
 end
