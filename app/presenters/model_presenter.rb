@@ -8,6 +8,7 @@ class ModelPresenter
   include HtmlBuilder
 
   attr_reader :object, :view_context
+
   # 委譲（delegation）
   # ModelPresenterにrawメソッドとlink_toメソッドを持たせ、view_contextに委譲する
   # ModelPresenterのrawメソッド, link_toメソッドが呼ばれると、view_contextのrawメソッド, link_toメソッドが呼ばれるということ
@@ -16,5 +17,13 @@ class ModelPresenter
   def initialize(object, view_context)
     @object = object
     @view_context = view_context
+  end
+
+  def created_at
+    object.created_at.try(:strftime, '%Y/%m/%d %H:%M:%S')
+  end
+
+  def updated_at
+    object.updatede_at.try(:strftime, '%Y/%m/%d %H:%M:%S')
   end
 end
