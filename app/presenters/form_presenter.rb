@@ -51,7 +51,6 @@ class FormPresenter
 
       # i18nのロードパスは以下で確認できる
       # bin/rails r 'pp I18n.load_path
-
       object.errors.full_messages_for(name).each do |message|
         m.div(class: "error-message") do |div|
           div.text message

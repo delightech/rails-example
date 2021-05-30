@@ -16,6 +16,6 @@ class Staff::CustomerForm
     # HomeAddressオブジェクトをインスタンス化してCustomerと結びつける。
     # この時点ではHomeAddressオブジェクトはDBに保存されず、フォームを表示するために利用される
     @customer.build_home_address unless @customer.home_address
-    @customer.build_home_address unless @customer.work_address
+    @customer.build_work_address unless @customer.work_address
   end
 end

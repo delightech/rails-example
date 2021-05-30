@@ -8,7 +8,7 @@ class Staff::CustomersController < Staff::Base
     @customer = Customer.find(params[:id])
   end
 
-  def def new
+  def new
     @customer_form = Staff::CustomerForm.new
   end
 
