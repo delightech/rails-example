@@ -9,7 +9,7 @@ class Staff::CustomerForm
   # この委譲を行わない場合、persisted?はfalseとなり、HTTPメソッドがPOSTで固定されてしまう。
   delegate :persisted?, to: :customer
 
-  def def initialize(customer = nil)
+  def initialize(customer = nil)
     @customer = customer
     @customer ||= Customer.new(gender: "male")
     # build_home_addressは Customer に has_one で追加されるインスタンスメソッド
@@ -17,6 +17,5 @@ class Staff::CustomerForm
     # この時点ではHomeAddressオブジェクトはDBに保存されず、フォームを表示するために利用される
     @customer.build_home_address unless @customer.home_address
     @customer.build_home_address unless @customer.work_address
-  end
   end
 end

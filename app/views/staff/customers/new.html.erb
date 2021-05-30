@@ -1,0 +1,18 @@
+<% @title = "顧客の新規登録" %>
+<h1><%= @title %></h1>
+
+<div id="generic-form">
+  <%#
+    modelで指定したフォームオブジェクトでパラメータのキーが決まる。
+    ここではparams[:stff_customer_form][:属性名]となる
+    scopeオプションはmodelで指定するオブジェクト名を省略するためのもの。
+    ここではscope: formとしているので、params[:staff_customer_form]がparams[:form]でアクセスできるようになるということ。
+  %>
+  <%= form_with model: @customer_form, scope: "form", url: :staff_customers do |f| %>
+  <%= render "form", f: f %>
+  <div class="buttons">
+    <%= f.submit "登録" %>
+    <%= link_to "キャンセル", :staff_customers %>
+  </div>
+  <% end %>
+</div>

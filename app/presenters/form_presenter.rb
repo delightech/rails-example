@@ -60,6 +60,17 @@ class FormPresenter
     end
   end
 
+  def drop_down_list_block(name, label_text, choices, options = {})
+    markup(:div, class: "input-block") do |m|
+      m << decorated_label(name, label_text, options)
+      # selectメソッドはセレクトボックスを追加する
+      # 第二引数に選択項目の配列、第三引数にselectメソッドの振る舞い指定、第四引数にはHTMLのselect要素の属性オプション
+      # 第三引数でinclude_blankオプションをtrueにすると、空白の選択肢がリストの先頭に追加される
+      m << form_builder.select(name, choices, {include_blank: true}, options)
+      m << error_messages_for(name)
+    end
+  end
+
   private def decorated_label(name, label_text, options = {})
     label(name, label_text, class: options[:required] ? "required" : nil)
   end
