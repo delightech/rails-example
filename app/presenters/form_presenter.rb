@@ -50,7 +50,7 @@ class FormPresenter
       # 引数に :email を指定すれば、object の :email 属性に関するエラーメッセージのリストが返る
 
       # i18nのロードパスは以下で確認できる
-      # bin/rails r 'pp I18n.load_path
+      # bin/rails r 'pp I18n.load_path'
       object.errors.full_messages_for(name).each do |message|
         m.div(class: "error-message") do |div|
           div.text message

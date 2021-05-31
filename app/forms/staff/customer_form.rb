@@ -7,7 +7,7 @@ class Staff::CustomerForm
   # ActiveRecordのpersisted?は、モデルオブジェクトがDBに保存されているならtrueを返す（new_record?の逆）
   # form_withはpersisted?を評価して、trueならPATCH（更新）、falseならPOST（登録）でHTTPメソッドを判定している。
   # この委譲を行わない場合、persisted?はfalseとなり、HTTPメソッドがPOSTで固定されてしまう。
-  delegate :persisted?, to: :customer
+  delegate :persisted?, :save, to: :customer
 
   def initialize(customer = nil)
     @customer = customer
@@ -32,14 +32,34 @@ class Staff::CustomerForm
     customer.work_address.assign_attributes(work_address_params)
   end
 
-  def save
-    ActiveRecord::Base.transaction do
-      customer.save!
-      # HomeAddressとWorkAddressは、Customerとは別に、明示的に保存する必要がある
-      customer.home_address.save!
-      customer.work_address.save!
-    end
-  end
+  # saveメソッドをmodel側でautosave: trueにしておくと関連オブジェクト含めバリデーションチェック後にtransactionで保存される
+  # saveメソッドは、customerに委譲しておくことで、customer_form.saveでcustomer.saveを呼び出せる。こうすることでコードを短くできる
+  #def save
+  #  customer.save
+  #end
+
+  # saveメソッドを個別に書くと以下のようになる
+  #def save
+  #  # !付きのsaveは、保存前のバリデーションで失敗するとActiveRecord::RecordInvalidエラーを発生させるのでバリデーションが通ったかどうかをチェックしてからsave!する
+  #  if valid?
+  #    ActiveRecord::Base.transaction do
+  #      customer.save!
+  #      # HomeAddressとWorkAddressは、Customerとは別に、明示的に保存する必要がある
+  #      customer.home_address.save!
+  #      customer.work_address.save!
+  #    end
+  #  end
+  #end
+
+  #def valid?
+  #  # mapで配列内のオブジェクトのvalid?を実行し、その結果の真偽値の配列を返す
+  #  # [...].map(&:valid?) の引数は、引数を一つ取るブロックに変換される。引数「&シンボル」は、メソッドとしてすべての要素で実行される
+  #  # 例）[...].map(&:name) → [...].map { |e| e.name }
+  #  # all?は配列の全要素が真である場合に真を返す
+  #  [customer, customer.home_address, customer.work_address].map(&:valid?).all?
+  #  # 下記のように実装すると、最初のcustomer.valid?がfalseの場合、以降のvalid?が評価されず、エラー値が入力されていても画面にエラーが表示されない状態になるため
+  #  # if customer.valid? && customer.home_address.valid? && customer.work_address.valid?
+  #end
 
   private def customer_params
     @params.require(:customer).permit(
