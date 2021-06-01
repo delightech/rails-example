@@ -1,4 +1,6 @@
 class Customer < ApplicationRecord
+  include PersonalNameHolder
+
   # has_one はモデル間に1対1の関連付けを設定する
   # dependent: :destroy としているので、Customerオブジェクトが削除される直前に、関連付けられたHomeAddressオブジェクトとWorkAddressオブジェクトが削除される
   has_one :home_address, dependent: :destroy, autosave: true

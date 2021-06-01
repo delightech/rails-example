@@ -1,5 +1,9 @@
 class StaffMember < ApplicationRecord
   include StringNormalizer
+  # before_validation, vadatesを以下でも定義
+  # 名前系のバリデーションmodule
+  include PersonalNameHolder
+
   # ここで指定するシンボル「:events」と同名のインスタンスメソッドが定義される
   # 既存のインスタンスメソッド名とかぶらないように設定する必要がある
   # has_many :staff_events とするとRails側でクラス名が推定可能なので class_nameオプションを省略可能
@@ -10,25 +14,10 @@ class StaffMember < ApplicationRecord
   # ブロックに指定した処理がバリデーションの直前にコールバックされる
   before_validation do
     self.email = normalize_as_email(email)
-    self.family_name = normalize_as_name(family_name)
-    self.given_name = normalize_as_name(given_name)
-    self.family_name_kana = normalize_as_furigana(family_name_kana)
-    self.given_name_kana = normalize_as_furigana(given_name_kana)
   end
-
-  # 漢字、平仮名、カタカナ、長音符、アルファベットのみにマッチする
-  HUMAN_NAME_REGEXP = /\A[\p{han}\p{hiragana}\p{katakana}\u{30fc}A-Za-z]+\z/
-
-  # \p{katakana} は任意のカタカナ一文字にマッチする
-  # \u{30fc} は長音符「-」1文字にマッチする
-  KATAKANA_REGEXP = /\A[\p{katakana}\u{30fc}]+\z/
 
   # uniqueness {case_sensitive: false}とすることで、大文字小文字を区別しないでユニークチェックをする
   validates :email, presence: true, "valid_email_2/email": true, uniqueness: { case_sensitive: false }
-  # presence: trueで値が空の場合にバリデーションエラー（半角スペース、タブ文字も失敗する）
-  validates :family_name, :given_name, presence: true, format: { with: HUMAN_NAME_REGEXP, allow_blank: true}
-  # formatは正規表現にマッチするかのバリデーション。allow_blankオプションは、値が空の場合はバリデーションスキップ
-  validates :family_name_kana, :given_name_kana, presence: true, format: { with: KATAKANA_REGEXP, allow_blank: true }
   validates :start_date, presence: true, date: {
     # 2000/1/1以降指定（2020/1/1を含む）
     after_or_equal_to: Date.new(2000, 1, 1),
