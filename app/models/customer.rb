@@ -1,4 +1,5 @@
 class Customer < ApplicationRecord
+  include EmailHolder
   include PersonalNameHolder
 
   # has_one はモデル間に1対1の関連付けを設定する

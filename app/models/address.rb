@@ -3,6 +3,8 @@ class Address < ApplicationRecord
 
   belongs_to :customer
 
+  # ActiveRecord::Baseのクラスメソッド
+  # ブロックに指定した処理がバリデーションの直前にコールバックされる
   before_validation do
     self.postal_code = normalize_as_postal_code(postal_code)
     self.city = normalize_as_name(city)

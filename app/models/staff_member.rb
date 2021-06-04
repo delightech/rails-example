@@ -1,7 +1,6 @@
 class StaffMember < ApplicationRecord
-  include StringNormalizer
-  # before_validation, vadatesを以下でも定義
-  # 名前系のバリデーションmodule
+  # before_validation, vadatesを以下module内でも定義
+  include EmailHolder
   include PersonalNameHolder
 
   # ここで指定するシンボル「:events」と同名のインスタンスメソッドが定義される
@@ -10,14 +9,6 @@ class StaffMember < ApplicationRecord
   # dependent: :destroyで、StaffMember削除実行時、StaffMemberを削除する前に関連するStaffEventを全て削除する
   has_many :events, class_name: "StaffEvent", dependent: :destroy
 
-  # ActiveRecord::Baseのクラスメソッド
-  # ブロックに指定した処理がバリデーションの直前にコールバックされる
-  before_validation do
-    self.email = normalize_as_email(email)
-  end
-
-  # uniqueness {case_sensitive: false}とすることで、大文字小文字を区別しないでユニークチェックをする
-  validates :email, presence: true, "valid_email_2/email": true, uniqueness: { case_sensitive: false }
   validates :start_date, presence: true, date: {
     # 2000/1/1以降指定（2020/1/1を含む）
     after_or_equal_to: Date.new(2000, 1, 1),
