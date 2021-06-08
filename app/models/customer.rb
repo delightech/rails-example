@@ -1,6 +1,7 @@
 class Customer < ApplicationRecord
   include EmailHolder
   include PersonalNameHolder
+  include PasswordHolder
 
   # has_one はモデル間に1対1の関連付けを設定する
   # dependent: :destroy としているので、Customerオブジェクトが削除される直前に、関連付けられたHomeAddressオブジェクトとWorkAddressオブジェクトが削除される
@@ -13,11 +14,4 @@ class Customer < ApplicationRecord
     before: ->(obj) { Date.today },
     allow_blank: true
   }
-  def password=(raw_password)
-    if raw_password.kind_of?(String)
-      self.hashed_password = BCrypt::Password.create(raw_password)
-    elsif raw_password.nil?
-      self.hashed_password = nil
-    end
-  end
 end

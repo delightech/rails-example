@@ -2,6 +2,7 @@ class StaffMember < ApplicationRecord
   # before_validation, vadatesを以下module内でも定義
   include EmailHolder
   include PersonalNameHolder
+  include PasswordHolder
 
   # ここで指定するシンボル「:events」と同名のインスタンスメソッドが定義される
   # 既存のインスタンスメソッド名とかぶらないように設定する必要がある
@@ -29,14 +30,6 @@ class StaffMember < ApplicationRecord
     # 空欄を許可
     allow_blank: true
   }
-
-  def password=(raw_password)
-    if raw_password.kind_of?(String)
-      self.hashed_password = BCrypt::Password.create(raw_password)
-    elsif raw_password.nil?
-      self.hashed_password = nil
-    end
-  end
 
   def active?
     !suspended? && start_date <= Date.today &&
