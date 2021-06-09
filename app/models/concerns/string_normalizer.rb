@@ -24,4 +24,8 @@ module StringNormalizer
     # 郵便番号に含まれる全角文字を半角に変換した後、ハイフン記号を除去
     NKF.nkf("-W -w -Z1", text).strip.gsub(/-/, "") if text
   end
+  def normalize_as_phone_number(text)
+    # normalize_as_name と同じ処理内容。用途が違うので別メソッドにしている
+    NKF.nkf("-W -w -Z1", text).strip if text
+  end
 end
