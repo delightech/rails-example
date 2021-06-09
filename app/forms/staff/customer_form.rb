@@ -25,15 +25,31 @@ class Staff::CustomerForm
 
   def assign_attributes(params = {})
     @params = params
+    self.inputs_home_address = params[:inputs_home_address] == "1"
+    self.inputs_work_address = params[:inputs_work_address] == "1"
 
     # attr_accessor :customer で@customerをcustomerで呼び出せる。意味は同じ
 
     # params[:form][:customer]の送信された各フィールドの値を入れる
     customer.assign_attributes(customer_params)
-    # params[:form][:customer][:home_address]の送信された各フィールドの値を入れる
-    customer.home_address.assign_attributes(home_address_params)
-    # params[:form][:customer][:work_address]の送信された各フィールドの値を入れる
-    customer.work_address.assign_attributes(work_address_params)
+    if inputs_home_address
+      # params[:form][:customer][:home_address]の送信された各フィールドの値を入れる
+      customer.home_address.assign_attributes(home_address_params)
+    else
+      # 関連付けられたモデルオブジェクト（ここではHomeAddress）のmark_for_destructionメソッドを呼び出すと、親（ここではCustomer）が保存される際に、関連オブジェクトが自動的にDBから削除される
+      # 未保存のデータ（新規登録など）の場合は、バリデーションと保存の処理がスキップされる
+      # この仕組みを機能させるためには、クラスメソッドの has_one のautosaveオプションにtrueが指定されている必要がある
+      customer.home_address.mark_for_destruction
+    end
+    if inputs_work_address
+      # params[:form][:customer][:work_address]の送信された各フィールドの値を入れる
+      customer.work_address.assign_attributes(work_address_params)
+    else
+      # 関連付けられたモデルオブジェクト（ここではWorkAddress）のmark_for_destructionメソッドを呼び出すと、親（ここではCustomer）が保存される際に、関連オブジェクトが自動的にDBから削除される
+      # 未保存のデータ（新規登録など）の場合は、バリデーションと保存の処理がスキップされる
+      # この仕組みを機能させるためには、クラスメソッドの has_one のautosaveオプションにtrueが指定されている必要がある
+      customer.work_address.mark_for_destruction
+    end
   end
 
   # saveメソッドをmodel側でautosave: trueにしておくと関連オブジェクト含めバリデーションチェック後にtransactionで保存される
