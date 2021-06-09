@@ -1,7 +1,7 @@
 class Staff::CustomerForm
   include ActiveModel::Model
 
-  attr_accessor :customer
+  attr_accessor :customer, :inputs_home_address, :inputs_work_address
   # persisted?はActiveModelではデフォルトfalseを返す。
   # delegateでcustomerに委譲すると、ActiveRecordのpersisted?が呼ばれる
   # ActiveRecordのpersisted?は、モデルオブジェクトがDBに保存されているならtrueを返す（new_record?の逆）
@@ -12,6 +12,10 @@ class Staff::CustomerForm
   def initialize(customer = nil)
     @customer = customer
     @customer ||= Customer.new(gender: "male")
+    # 顧客アカウントがHomeAddressオブジェクトを持っていれば該当するチェックボックスがONになるようにする
+    self.inputs_home_address = @customer.home_address.present?
+    # 顧客アカウントがWorkAddressオブジェクトを持っていれば該当するチェックボックスがONになるようにする
+    self.inputs_work_address = @customer.work_address.present?
     # build_home_addressは Customer に has_one で追加されるインスタンスメソッド
     # HomeAddressオブジェクトをインスタンス化してCustomerと結びつける。
     # この時点ではHomeAddressオブジェクトはDBに保存されず、フォームを表示するために利用される
