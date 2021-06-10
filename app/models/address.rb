@@ -2,6 +2,9 @@ class Address < ApplicationRecord
   include StringNormalizer
 
   belongs_to :customer
+  # ここでのscope指定はソート順を一定にするため
+  has_many :phones, -> { order(:id) },
+    dependent: :destroy, autosave: true
 
   # ActiveRecord::Baseのクラスメソッド
   # ブロックに指定した処理がバリデーションの直前にコールバックされる
