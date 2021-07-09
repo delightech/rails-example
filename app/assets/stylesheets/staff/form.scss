@@ -41,6 +41,9 @@ div#wrapper {
             display: inline-block;
           }
         }
+        input[type="checkbox"] + label {
+          display: inline-block;
+        }
         dev.buttons {
           text-align: center;
           input[type="submit"] {

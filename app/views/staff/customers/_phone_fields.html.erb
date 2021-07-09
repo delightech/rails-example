@@ -1,0 +1,11 @@
+<%# indexオプションがある場合と無い場合のformのname属性の違い
+indexオプションなし: form[customer][phones][number]
+indexに０指定: form[customer][phones][0][number]
+%>
+<%= f.fields_for :phones, phone, index: index do |ff| %>
+<%= markup(:li) do |m|
+  m << ff.text_field(:number)
+  m << ff.check_box(:primary)
+  m << ff.label(:primary, "優先")
+end %>
+<% end %>
